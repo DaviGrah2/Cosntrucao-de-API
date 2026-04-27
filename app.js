@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// Middleware para parsear JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -10,10 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 let filmes = [
   { id: 1, titulo: 'O Senhor dos Anéis', genero: 'Fantasia' },
   { id: 2, titulo: 'Matrix', genero: 'Ficção Científica' },
-  { id: 3, titulo: 'Titanic', genero: 'Romance' }
+  { id: 3, titulo: 'O Pequenino', genero: 'Comédia' },
+  { id: 4, titulo: 'Capitão América: guerra civil', genero: 'Ficção Científica' }
 ];
 
-// Array de clientes
 let clientes = [];
 
 // Atividade 01: GET /filmes
@@ -37,12 +36,11 @@ app.post('/clientes', (req, res) => {
   if (!nome || !email) {
     return res.status(400).json({ error: 'Nome e email são obrigatórios' });
   }
-  // Verificar duplicidade
   const clienteExistente = clientes.find(c => c.email === email);
   if (clienteExistente) {
     return res.status(400).json({ error: 'Este email já está cadastrado' });
   }
-  // Gerar ID automático
+
   const id = clientes.length > 0 ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
   const novoCliente = { id, nome, email };
   clientes.push(novoCliente);
